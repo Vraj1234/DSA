@@ -1,24 +1,25 @@
 class Solution:
     def minRemoveToMakeValid(self, s: str) -> str:
-        open_count = 0
-        extra = 0
-        e_open = set()
-        e_close = set()
-        for i,x in enumerate(s):
-            if x == '(':
-                open_count+=1
-                e_open.add(i)
-            if x == ")":
-                if open_count!= 0:
-                    open_count-=1
-                    e_open.pop()
+        stack = []
+        extra = []
+        for i,ch in enumerate(s):
+            if ch == '(':
+                stack.append((ch,i))
+            if ch == ')':
+                if stack and stack[-1][0] == '(':
+                    stack.pop()
                 else:
-                    extra+=1
-                    e_close.add(i)
-
+                    extra.append((ch,i))
+        
+        s_st = set([x[1] for x in stack])
+        e_st = set([x[1] for x in extra])
         res = ""
         for i,x in enumerate(s):
-            if i not in e_open and i not in e_close:
+            if i not in s_st and i not in e_st:
                 res+=x
         
         return res
+            
+        
+                 
+            
