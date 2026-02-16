@@ -1,9 +1,8 @@
-from collections import defaultdict
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        freq = defaultdict()
+        umap = defaultdict()
         for i,x in enumerate(nums):
-            if target - x in freq:
-                return [freq[target-x], i]
+            if target-x not in umap:
+                umap[x] = i
             else:
-                freq[x] = i
+                return [i, umap[target-x]]
