@@ -29,33 +29,31 @@ from collections import defaultdict
 
 class Solution:
     def invalidTransactions(self, transactions):
-        invalid = set()
+        res = []
+        added = set()          # track indices already added
         by_name = defaultdict(list)
 
-        # build groups + amount rule
+        # first pass
         for i, txn in enumerate(transactions):
             name, t, a, city = txn.split(',')
             time = int(t)
             amount = int(a)
 
-            if amount > 1000:
-                invalid.add(i)
+            if amount > 1000 and i not in added:
+                res.append(txn)
+                added.add(i)
 
             by_name[name].append((time, city, i))
 
-        # check 60-minute city conflicts
-        for name in by_name:
-            arr = by_name[name]
+        # second pass
+        for i, txn in enumerate(transactions):
+            cur_name, t, a, cur_city = txn.split(',')
+            cur_time = int(t)
 
-            for i in range(len(arr)):
-                time_i, city_i, idx_i = arr[i]
+            for time, city, idx in by_name[cur_name]:
+                if abs(cur_time - time) <= 60 and city != cur_city:
+                    if i not in added:
+                        res.append(txn)
+                        added.add(i)
 
-                for j in range(i + 1, len(arr)):
-                    time_j, city_j, idx_j = arr[j]
-
-                    if abs(time_i - time_j) <= 60 and city_i != city_j:
-                        invalid.add(idx_i)
-                        invalid.add(idx_j)
-
-        # build result preserving duplicates
-        return [transactions[i] for i in invalid]
+        return res
