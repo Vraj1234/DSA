@@ -1,22 +1,18 @@
 class Solution:
     def minEatingSpeed(self, piles: List[int], h: int) -> int:
-        res = sys.maxsize
-        def calc_hrs(t):
+        l = 1
+        r = max(piles)
+
+        def is_valid(mid, h):
             hrs = 0
             for x in piles:
-                hrs+= int(ceil(x/t))
-            return hrs
+                hrs+=int(ceil(x/mid))
+            return hrs<=h
 
-        mx = max(piles)
-
-        l,r = 1, mx
-
-        while l<r:
+        while l<=r:
             mid = (l+r)//2
-            #print(l,r,mid, calc_hrs(mid))
-            if calc_hrs(mid) <= h:
-                r = mid
+            if is_valid(mid, h):
+                r = mid-1
             else:
-                l = mid+1         
-        
+                l = mid+1
         return l
