@@ -8,10 +8,14 @@ class Solution:
         if not head:
             return None
         
-        prev = None
         cur = head
+        after = head.next
+        prev = None
 
         while cur:
-            cur.next, prev, cur = prev, cur, cur.next
+            cur.next, prev, cur = prev, cur, after
+            if after!=None:
+                after = after.next
         
         return prev
+        
