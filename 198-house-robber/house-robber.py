@@ -17,16 +17,32 @@ class Solution:
         
         # return f(len(nums)-1)
 
+        # if len(nums) == 1:
+        #     return nums[0]
+        
+        # dp = [-1]*(n)
+        # dp[0] = nums[0]
+        # dp[1] = max(nums[0], nums[1])
+
+        # for i in range(2, n):
+        #     pick = nums[i] + dp[i-2]
+        #     non_pick = dp[i-1]
+        #     dp[i] = max(pick, non_pick)
+
+        # return dp[n-1]
+
         if len(nums) == 1:
             return nums[0]
         
         dp = [-1]*(n)
-        dp[0] = nums[0]
-        dp[1] = max(nums[0], nums[1])
+        p2 = nums[0]
+        p1 = max(nums[0], nums[1])
 
         for i in range(2, n):
-            pick = nums[i] + dp[i-2]
-            non_pick = dp[i-1]
-            dp[i] = max(pick, non_pick)
+            pick = nums[i] + p2
+            non_pick = p1
+            curi = max(pick, non_pick)
+            p2 = p1
+            p1 = curi
 
-        return dp[n-1]
+        return p1
