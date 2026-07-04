@@ -34,7 +34,7 @@ class Solution:
         if len(nums) == 1:
             return nums[0]
         
-        dp = [-1]*(n)
+        # dp = [-1]*(n)
         p2 = nums[0]
         p1 = max(nums[0], nums[1])
 
