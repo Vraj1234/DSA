@@ -5,27 +5,11 @@ class MedianFinder:
         self.right_min = []
 
     def addNum(self, num: int) -> None:
-        if (not self.left_max and not self.right_min):
-            heapq.heappush(self.left_max, -1 * num)
-            return
-        if len(self.left_max) == len(self.right_min):
-            if num>= -1* self.left_max[0]:
-                heapq.heappush(self.right_min, num)
-            else:
-                heapq.heappush(self.right_min, -1 * heapq.heappop(self.left_max))
-                heapq.heappush(self.left_max, -1 * num)
-        elif len(self.left_max) > len(self.right_min):
-            if num>= -1 * self.left_max[0]:
-                heapq.heappush(self.right_min, num)
-            else:
-                heapq.heappush(self.right_min, -1 * heapq.heappop(self.left_max))
-                heapq.heappush(self.left_max, -1 * num)
-        else:
-            if num<=self.right_min[0]:
-                heapq.heappush(self.left_max, -1 * num)
-            else:
-                heapq.heappush(self.left_max, -1 * heapq.heappop(self.right_min))
-                heapq.heappush(self.right_min, num)
+        heapq.heappush(self.right_min, num)
+        heapq.heappush(self.left_max, -1 * heapq.heappop(self.right_min))
+    
+        if len(self.left_max) > len(self.right_min):
+            heapq.heappush(self.right_min, -1* heapq.heappop(self.left_max))
 
 
     def findMedian(self) -> float:
