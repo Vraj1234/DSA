@@ -1,28 +1,31 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        n = numCourses
-        indegree = [0]*n
         adj = defaultdict(list)
-        res = []
-        
-        for e,s in prerequisites:
-            adj[s].append(e)
-            indegree[e]+=1
-        
+        indegree = [0]*numCourses
+
+        for d,s in prerequisites:
+            adj[s].append(d)
+            indegree[d]+=1
+
         q = deque()
+        vis = set()
         for i in range(len(indegree)):
             if indegree[i] == 0:
                 q.append(i)
+                vis.add(i)
         
+        res = []
         while q:
             node = q.popleft()
             res.append(node)
             for neighbor in adj[node]:
-                indegree[neighbor]-=1
-                if indegree[neighbor] == 0:
-                    q.append(neighbor)
+                if neighbor not in vis:
+                    indegree[neighbor]-=1
+                    if indegree[neighbor] == 0:
+                        q.append(neighbor)
+                        vis.add(neighbor)
         
-        if len(res) == n:
+        if numCourses == len(res):
             return res
         else:
             return []
