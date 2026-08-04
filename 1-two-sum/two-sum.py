@@ -1,8 +1,9 @@
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        umap = defaultdict()
-        for i,x in enumerate(nums):
-            if target-x not in umap:
-                umap[x] = i
+        map = defaultdict(int)
+        for i,num in enumerate(nums):
+            if target-num in map:
+                return [i, map[target-num]]
             else:
-                return [i, umap[target-x]]
+                map[num] = i
+        return [-1,-1]
