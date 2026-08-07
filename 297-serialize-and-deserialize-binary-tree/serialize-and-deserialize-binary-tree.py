@@ -13,23 +13,17 @@ class Codec:
         :type root: TreeNode
         :rtype: str
         """
-        if not root:
-            return ""
-        q = deque()
-        res = ""
-        q.append(root)
-        while q:
-            node = q.popleft()
-            if node:
-                res+= str(node.val) + ","
-            else:
-                res+="#,"
-                continue
-            left = node.left if node.left else None
-            q.append(left)
-            right = None if not node.right else node.right
-            q.append(right)
-        return res
+        res = []
+        def dfs(root):
+            if not root:
+                res.append("N")
+                return
+            res.append(str(root.val))
+            dfs(root.left)
+            dfs(root.right)
+            
+        dfs(root)
+        return ",".join(res)
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -37,38 +31,20 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
-        if not data:
-            return None
-        data = data[:-1]
-        ls = data.split(',')
-        q = deque()
-        i = 0
-        head = TreeNode(ls[i])
-        temp = head
-        q.append(temp)
-        i+=1
-        while q:
-            temp = q.popleft()
-            if ls[i] == "#":
-                temp.left = None
-            else:
-                temp.left = TreeNode(ls[i])
-                q.append(temp.left)
-                
-            i+=1
-            if ls[i] == "#":
-                temp.right = None
-            else:
-                temp.right = TreeNode(ls[i])
-                q.append(temp.right)
-            i+=1
-            
-            
-            
-
-        return head
-
+        vals = data.split(',')
+        self.i = 0
         
+        def dfs():            
+            if vals[self.i] == "N":
+                self.i+=1
+                return None
+            node = TreeNode(int(vals[self.i]))
+            self.i+=1
+            node.left = dfs()
+            node.right = dfs()
+            return node
+        
+        return dfs()
 
 # Your Codec object will be instantiated and called as such:
 # ser = Codec()
