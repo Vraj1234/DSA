@@ -10,11 +10,11 @@ class Solution:
             if lmax<=rmax:
                 l+=1
                 lmax = max(lmax, nums[l])
-                res += (nums[l]-lmax)
+                res += (lmax-nums[l])
             
             else:
                 r-=1
                 rmax = max(rmax, nums[r])
-                res += (nums[r]-rmax)
+                res += (rmax-nums[r])
         
-        return res*-1
+        return res
