@@ -1,22 +1,43 @@
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        res = []
-        temp = []
-        candidates.sort()
-        def bt(start, nums, temp, s):
-            if s == target:
-                res.append(temp[:])
-                return
-            else:
-                for i in range(start, len(nums)):
-                    if s + nums[i] > target:
-                        break
-                    s+=nums[i]
-                    temp.append(nums[i])
-                    bt(i, nums, temp, s)
-                    s-=nums[i]
-                    temp.pop()
-
         
-        bt(0, candidates, temp, 0)
-        return res
+        # res = set()
+        # def f(s, temp):
+        #     if s == target:
+        #         temp.sort()
+        #         res.add(tuple(temp[:]))
+        #         return
+            
+        #     if s >target:
+        #         return
+            
+        #     for i in range(len(candidates)):
+        #         temp.append(candidates[i])
+        #         s+=candidates[i]
+        #         f(s,temp)
+        #         num = temp.pop()
+        #         s-=num
+        
+        # f(0, [])
+        # return [list(x) for x in res]
+
+        res = set()
+        def f(s, temp):
+            if s == target:
+                new = temp[:]
+                new.sort()
+                res.add(tuple(new))
+                return
+            
+            if s >target:
+                return
+            
+            for i in range(len(candidates)):
+                temp.append(candidates[i])
+                s+=candidates[i]
+                f(s,temp)
+                num = temp.pop()
+                s-=num
+        
+        f(0, [])
+        return [list(x) for x in res]
