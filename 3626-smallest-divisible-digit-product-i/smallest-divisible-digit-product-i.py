@@ -9,6 +9,6 @@ class Solution:
             
             return res
 
-        for i in range(n,n+11):
+        for i in range(n,n+10):
             if digit_product(i)%t == 0:
                 return i
