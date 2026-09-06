@@ -5,7 +5,6 @@ class Solution:
         rmax = height[r]
         res = 0
         while l<r:
-            print(l)
             if lmax <= rmax:
                 l+=1
                 lmax = max(height[l], lmax)
