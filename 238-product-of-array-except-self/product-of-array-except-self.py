@@ -1,11 +1,14 @@
 class Solution:
-    def productExceptSelf(self, nums: List[int]) -> List[int]:
-        n = len(nums)
-        prefix = list(accumulate(nums, mul))
-        suffix = list(accumulate(nums[::-1], mul))[::-1]
+    def productExceptSelf(self, nums: list[int]) -> list[int]:
+        prefix = [1]
+        for i in range(len(nums)):
+            prefix.append(nums[i]* prefix[-1])
+        # print(prefix)
+        suffix = [1] 
+        for i in range(len(nums)-1, -1, -1):
+            suffix.append(nums[i] * suffix[-1])
+        suffix.reverse()
         res = []
-        for i,x in enumerate(nums):
-            l = 1 if i-1<0 or i-1>=n else prefix[i-1]
-            r = 1 if i+1<0 or i+1>=n else suffix[i+1]
-            res.append(l*r)
+        for i in range(len(nums)):
+            res.append(prefix[i] * suffix[i+1])
         return res
